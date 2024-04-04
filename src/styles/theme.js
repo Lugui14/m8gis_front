@@ -19,9 +19,10 @@ const styles = {
 const colors = {
   brand: {
     primary: "#005DCB",
-    secondary: "#E6EEFF",
+    bg: "#E6EEFF",
     font: "#002F66",
-    selected: "#4387DA",
+    hover: "#4387DA",
+    orange: "#ff6d1c",
   },
 };
 
