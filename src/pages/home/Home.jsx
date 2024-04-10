@@ -20,8 +20,11 @@ import {
 import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import { SearchIcon } from "@chakra-ui/icons";
 import { FaFilter } from "react-icons/fa";
+import { useFetchAllCnaes } from "../../hooks/cnaeHooks";
 
 const Home = () => {
+  const { data: cnaes } = useFetchAllCnaes();
+
   return (
     <Box bg={"brand.bg"} width={"100vw"} minHeight={"100vh"}>
       <Header mb={"10vh"} />
@@ -77,9 +80,13 @@ const Home = () => {
                     </Button>
                   </InputGroup>
                   <AutoCompleteList>
-                    <AutoCompleteItem value={"item 1"}>Item 1</AutoCompleteItem>
-                    <AutoCompleteItem value={"item 2"}>Item 2</AutoCompleteItem>
-                    <AutoCompleteItem value={"item 3"}>Item 3</AutoCompleteItem>
+                    {cnaes &&
+                      cnaes?.length > 0 &&
+                      cnaes.map(cnae => (
+                        <AutoCompleteItem key={cnae.id} value={cnae.descricao}>
+                          {cnae.descricao}
+                        </AutoCompleteItem>
+                      ))}
                   </AutoCompleteList>
                 </>
               )}
