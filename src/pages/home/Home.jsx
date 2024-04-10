@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   HStack,
   Icon,
   Image,
@@ -18,6 +19,7 @@ import {
 } from "@choc-ui/chakra-autocomplete";
 import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import { SearchIcon } from "@chakra-ui/icons";
+import { FaFilter } from "react-icons/fa";
 
 const Home = () => {
   return (
@@ -61,15 +63,18 @@ const Home = () => {
                     <InputLeftElement>
                       <Icon as={isOpen ? FiChevronRight : FiChevronDown} />
                     </InputLeftElement>
-                    <InputRightAddon
-                      border="1px solid"
-                      borderColor={"brand.font"}
-                      color={"white"}
-                      fontWeight={"bold"}
-                      bg={"brand.primary"}
-                    >
-                      <SearchIcon />
-                    </InputRightAddon>
+                    <Button p={0}>
+                      <InputRightAddon
+                        border="1px solid"
+                        borderColor={"brand.font"}
+                        color={"white"}
+                        fontWeight={"bold"}
+                        bg={"brand.primary"}
+                        _hover={{ bg: "brand.hover" }}
+                      >
+                        <SearchIcon />
+                      </InputRightAddon>
+                    </Button>
                   </InputGroup>
                   <AutoCompleteList>
                     <AutoCompleteItem value={"item 1"}>Item 1</AutoCompleteItem>
@@ -79,6 +84,16 @@ const Home = () => {
                 </>
               )}
             </AutoComplete>
+            <Button
+              variant={"solid"}
+              color={"white"}
+              bg="brand.primary"
+              rightIcon={<FaFilter />}
+              _hover={{ bg: "brand.hover" }}
+              mt={2}
+            >
+              Mais Filtros
+            </Button>
           </VStack>
           <Box boxSize="lg">
             <Image src="assets/images/map.svg" alt="MAP SVG" />
