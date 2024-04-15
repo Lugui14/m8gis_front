@@ -1,22 +1,29 @@
-import { HStack, Text } from "@chakra-ui/react";
+import { Box, Typography } from "@mui/material";
 import HeaderMenu from "./menu/HeaderMenu";
 
-const Header = ({ ...props }) => {
+const Header = () => {
   return (
-    <HStack
-      width={"100%"}
-      paddingX={24}
-      paddingY={6}
-      justifyContent={"space-between"}
-      alignItems={"center"}
-      color={"brand.font"}
-      {...props}
+    <Box
+      sx={{
+        display: "flex",
+        maxWidth: "100vw",
+        paddingX: 16,
+        paddingY: 4,
+        justifyContent: "space-between",
+        alignItems: "center",
+        color: "text.primary",
+        marginBottom: "15vh",
+      }}
     >
-      <Text fontSize={"2xl"} fontWeight={"bold"}>
-        Logo
-      </Text>
+      <Typography sx={{ fontSize: "2xl", fontWeight: "bold" }}>
+        <img
+          src="assets/images/logo_m8_sistemas.png"
+          alt="M8 Sistemas"
+          style={{ maxWidth: 150 }}
+        />
+      </Typography>
       <HeaderMenu />
-    </HStack>
+    </Box>
   );
 };
 

@@ -1,31 +1,24 @@
-import { extendTheme } from "@chakra-ui/react";
+import { createTheme } from "@mui/material";
 
-const config = {
-  initialColorMode: "light",
-  useSystemColorMode: false,
-};
-
-const styles = {
-  global: {
-    "html, body": {
-      margin: 0,
-      padding: 0,
-      boxSizing: "border-box",
-      fontFamily: "Poppins, sans-serif",
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: "#ff6d1c",
+    },
+    blue: {
+      main: "#005DCB",
+      light: "#4387DA",
+    },
+    background: {
+      default: "#E6EEFF",
+    },
+    text: {
+      primary: "#002F66",
     },
   },
-};
-
-const colors = {
-  brand: {
-    primary: "#005DCB",
-    bg: "#E6EEFF",
-    font: "#002F66",
-    hover: "#4387DA",
-    orange: "#ff6d1c",
+  typography: {
+    fontFamily: "Poppins, sans-serif",
   },
-};
-
-const theme = extendTheme({ config, styles, colors });
+});
 
 export default theme;

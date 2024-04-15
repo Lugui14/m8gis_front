@@ -1,19 +1,15 @@
 import PropTypes from "prop-types";
-import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-import theme from "./styles/theme";
+import { ThemeProvider } from "@mui/material";
+import theme from "@styles/theme";
 
 const queryClient = new QueryClient();
 
 const Providers = ({ children }) => {
   return (
-    <ChakraProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        {children}
-      </QueryClientProvider>
-    </ChakraProvider>
+    <ThemeProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </ThemeProvider>
   );
 };
 
