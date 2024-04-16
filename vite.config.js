@@ -12,6 +12,7 @@ export default defineConfig({
       "@pages": path.resolve("/src/pages"),
       "@assets": path.resolve("/src/assets"),
       "@styles": path.resolve("/src/styles"),
+      "@contexts": path.resolve("/src/contexts"),
     },
   },
 });
