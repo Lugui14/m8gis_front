@@ -3,7 +3,7 @@ import { SpeedDialAction, SpeedDialIcon } from "@mui/material";
 import { FaFilter } from "react-icons/fa";
 import { CiExport } from "react-icons/ci";
 import { useState } from "react";
-import FiltersModal from "@components/modals/FiltersModal";
+import FiltersModal from "../modals/FiltersModal";
 
 function MapSpeedDial() {
   const [filterDrawer, setFilterDrawer] = useState(false);

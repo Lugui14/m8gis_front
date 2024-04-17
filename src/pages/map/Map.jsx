@@ -1,7 +1,7 @@
 import { CircleMarker, MapContainer, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Box } from "@mui/material";
-import MapSpeedDial from "@components/buttons/MapSpeedDial";
+import MapSpeedDial from "../../components/buttons/MapSpeedDial";
 
 const Map = () => {
   return (

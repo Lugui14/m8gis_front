@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Modal, Typography } from "@mui/material";
 import { IoMdClose } from "react-icons/io";
 import PropTypes from "prop-types";
-import FiltersForm from "@components/forms/FiltersForm";
+import FiltersForm from "../forms/FiltersForm"
 
 const modalBannerStyle = {
   position: "absolute",
