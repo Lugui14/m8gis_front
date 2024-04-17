@@ -19,7 +19,7 @@ const FiltersForm = () => {
   // const [empresa, setEmpresa] = React.useState("");
   const { data: cnaes } = useFetchAllCnaes();
   const { data: empresas } = useFetchAllEmpresas();
-  const uniquePortes = new Set(empresas.map(empresa => empresa.porte));
+  const uniquePortes = new Set(empresas?.map(empresa => empresa.porte));
 
   const [selectedPorte, setSelectedPorte] = useState("");
 
