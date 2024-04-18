@@ -2,27 +2,26 @@ import { useFetchAllCnaes } from "@hooks/cnaeHooks";
 import { Autocomplete, TextField } from "@mui/material";
 import PropTypes from "prop-types";
 
-const CnaeAutocomplete = ({ sx, ...props }) => {
+const CnaeAutocomplete = ({ error, sx, ...props }) => {
   const { data: cnaes, isLoading } = useFetchAllCnaes();
 
   return (
     <Autocomplete
-      multiple
-      sx={{
-        backgroundColor: "white",
-        ...sx,
-      }}
-      options={
-        !isLoading
-          ? cnaes?.map(cnae => ({
-              label: cnae.descricao,
-              id: cnae.id,
-            }))
-          : []
-      }
-      fullWidth
       {...props}
-      renderInput={params => <TextField {...params} label="Cnaes" />}
+      multiple
+      sx={{ backgroundColor: "white", ...sx }}
+      options={!isLoading ? cnaes : []}
+      loading={isLoading}
+      fullWidth
+      getOptionLabel={option => option.descricao}
+      renderInput={params => (
+        <TextField
+          {...params}
+          label="CNAE"
+          error={!!error}
+          helperText={error?.message}
+        />
+      )}
     />
   );
 };
@@ -30,5 +29,6 @@ const CnaeAutocomplete = ({ sx, ...props }) => {
 export default CnaeAutocomplete;
 
 CnaeAutocomplete.propTypes = {
+  error: PropTypes.string,
   sx: PropTypes.object,
 };
