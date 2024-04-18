@@ -13,6 +13,11 @@ const Home = () => {
         minWidth: "100vw",
         minHeight: "100vh",
         backgroundColor: "background.default",
+        backgroundImage: "url(assets/images/company.svg)",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center bottom",
+        backgroundBlendMode: "soft-light",
+        backgroundSize: "60%",
       }}
     >
       <Header />
