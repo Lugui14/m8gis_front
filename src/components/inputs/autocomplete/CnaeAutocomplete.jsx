@@ -1,16 +1,16 @@
 import { useFetchAllCnaes } from "@hooks/cnaeHooks";
 import { Autocomplete, TextField } from "@mui/material";
+import PropTypes from "prop-types";
 
-const CnaeAutocomplete = props => {
+const CnaeAutocomplete = ({ sx, ...props }) => {
   const { data: cnaes, isLoading } = useFetchAllCnaes();
 
   return (
     <Autocomplete
       multiple
       sx={{
-        width: "90%",
-        maxWidth: "90%",
         backgroundColor: "white",
+        ...sx,
       }}
       options={
         !isLoading
@@ -20,6 +20,7 @@ const CnaeAutocomplete = props => {
             }))
           : []
       }
+      fullWidth
       {...props}
       renderInput={params => <TextField {...params} label="Cnaes" />}
     />
@@ -27,3 +28,7 @@ const CnaeAutocomplete = props => {
 };
 
 export default CnaeAutocomplete;
+
+CnaeAutocomplete.propTypes = {
+  sx: PropTypes.object,
+};

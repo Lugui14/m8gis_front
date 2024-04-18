@@ -1,9 +1,12 @@
 import Header from "../../components/Header";
-import { FaFilter } from "react-icons/fa";
+import { FaFilter, FaSearch } from "react-icons/fa";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import CnaeAutocomplete from "@components/inputs/autocomplete/CnaeAutocomplete";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -35,7 +38,16 @@ const Home = () => {
                   A poucos passos de seus novos clientes
                 </Typography>
 
-                <CnaeAutocomplete />
+                <Box sx={{ display: "flex", width: "100%" }}>
+                  <CnaeAutocomplete
+                    sx={{
+                      maxWidth: "80%",
+                    }}
+                  />
+                  <Button variant="contained" onClick={() => navigate("/map")}>
+                    <FaSearch />
+                  </Button>
+                </Box>
 
                 <Button
                   variant={"contained"}
@@ -43,7 +55,6 @@ const Home = () => {
                     color: "white",
                     backgroundColor: "blue.primary",
                     marginTop: 2,
-                    ":hover": { backgroundColor: "blue.light" },
                   }}
                   startIcon={<FaFilter />}
                 >
