@@ -1,18 +1,9 @@
 import Header from "../../components/Header";
 import { FaFilter } from "react-icons/fa";
-import { useFetchAllCnaes } from "../../hooks/cnaeHooks";
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
+import CnaeAutocomplete from "@components/inputs/autocomplete/CnaeAutocomplete";
 
 const Home = () => {
-  const { data: cnaes } = useFetchAllCnaes();
-
   return (
     <Box
       sx={{
@@ -44,25 +35,7 @@ const Home = () => {
                   A poucos passos de seus novos clientes
                 </Typography>
 
-                <Autocomplete
-                  multiple
-                  sx={{
-                    width: "90%",
-                    maxWidth: "90%",
-                    backgroundColor: "white",
-                  }}
-                  options={
-                    cnaes
-                      ? cnaes?.map(cnae => ({
-                          label: cnae.descricao,
-                          id: cnae.id,
-                        }))
-                      : []
-                  }
-                  renderInput={params => (
-                    <TextField {...params} label="Cnaes" />
-                  )}
-                />
+                <CnaeAutocomplete />
 
                 <Button
                   variant={"contained"}

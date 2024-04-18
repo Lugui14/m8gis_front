@@ -1,7 +1,8 @@
-import { CircleMarker, MapContainer, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Box } from "@mui/material";
 import MapSpeedDial from "../../components/buttons/MapSpeedDial";
+import { estabelishment } from "@/helpers/fakeData";
 
 const Map = () => {
   return (
@@ -12,13 +13,11 @@ const Map = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           maxZoom={15}
         />
-        <CircleMarker
-          center={[-27.0932839, -52.6016196]}
-          pathOptions={{ fillColor: "blue" }}
-          radius={20}
-        >
-          <Popup>aaa</Popup>
-        </CircleMarker>
+        {estabelishment.map(({ id, lat, long, razao_social }) => (
+          <Marker key={id} position={[lat, long]}>
+            <Popup>{razao_social}</Popup>
+          </Marker>
+        ))}
       </MapContainer>
       <MapSpeedDial />
     </Box>
