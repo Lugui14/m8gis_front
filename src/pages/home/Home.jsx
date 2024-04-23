@@ -3,9 +3,11 @@ import { FaFilter, FaSearch } from "react-icons/fa";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import CnaeAutocomplete from "@components/inputs/autocomplete/CnaeAutocomplete";
 import { useNavigate } from "react-router-dom";
+import { FormProvider, useForm } from "react-hook-form";
 
 const Home = () => {
   const navigate = useNavigate();
+  const form = useForm();
 
   return (
     <Box
@@ -43,16 +45,27 @@ const Home = () => {
                   A poucos passos de seus novos clientes
                 </Typography>
 
-                <Box sx={{ display: "flex", width: "100%" }}>
-                  <CnaeAutocomplete
-                    sx={{
-                      maxWidth: "80%",
-                    }}
-                  />
-                  <Button variant="contained" onClick={() => navigate("/map")}>
-                    <FaSearch />
-                  </Button>
-                </Box>
+                <FormProvider {...form}>
+                  <form
+                    style={{ width: "100%" }}
+                    onSubmit={form.handleSubmit(e => e.preventDefault)}
+                  >
+                    <Box sx={{ display: "flex", width: "100%" }}>
+                      <CnaeAutocomplete
+                        control={form.control}
+                        sx={{
+                          maxWidth: "80%",
+                        }}
+                      />
+                      <Button
+                        variant="contained"
+                        onClick={() => navigate("/map")}
+                      >
+                        <FaSearch />
+                      </Button>
+                    </Box>
+                  </form>
+                </FormProvider>
 
                 <Button
                   variant={"contained"}

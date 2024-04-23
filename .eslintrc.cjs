@@ -23,6 +23,7 @@ module.exports = {
     "arrow-parens": ["error", "as-needed"],
     "comma-dangle": "off",
     "react/jsx-no-target-blank": "off",
+    "react/display-name": "off",
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },

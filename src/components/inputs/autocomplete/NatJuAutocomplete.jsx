@@ -1,14 +1,14 @@
-import { useFetchAllCnaes } from "@hooks/cnaeHooks";
+import { useFetchAllNatJu } from "@hooks/natJuHooks";
 import { Autocomplete, TextField } from "@mui/material";
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
 
-const CnaeAutocomplete = ({ sx, control, ...props }) => {
-  const { data: cnaes, isLoading } = useFetchAllCnaes();
+const NatJuAutocomplete = ({ control, ...props }) => {
+  const { data: natJus, isLoading } = useFetchAllNatJu();
 
   return (
     <Controller
-      name="cnae"
+      name="natJu"
       control={control}
       render={({ field, fieldState: { error } }) => {
         const { onChange, value, ref } = field;
@@ -17,8 +17,8 @@ const CnaeAutocomplete = ({ sx, control, ...props }) => {
           <Autocomplete
             {...props}
             multiple
-            sx={{ backgroundColor: "white", ...sx }}
-            options={!isLoading ? cnaes : []}
+            sx={{ backgroundColor: "white" }}
+            options={!isLoading ? natJus : []}
             loading={isLoading}
             value={value}
             onChange={(e, newValue) => {
@@ -26,11 +26,11 @@ const CnaeAutocomplete = ({ sx, control, ...props }) => {
             }}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             fullWidth
-            getOptionLabel={option => option.descricao}
+            getOptionLabel={option => `${option.id} - ${option.descricao}`}
             renderInput={params => (
               <TextField
                 {...params}
-                label="CNAE"
+                label="Natureza Jurídica"
                 inputRef={ref}
                 error={!!error}
                 helperText={error?.message}
@@ -43,9 +43,8 @@ const CnaeAutocomplete = ({ sx, control, ...props }) => {
   );
 };
 
-export default CnaeAutocomplete;
+export default NatJuAutocomplete;
 
-CnaeAutocomplete.propTypes = {
+NatJuAutocomplete.propTypes = {
   control: PropTypes.any,
-  sx: PropTypes.object,
 };

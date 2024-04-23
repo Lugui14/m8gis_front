@@ -5,29 +5,33 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import PropTypes from "prop-types";
+import { useFormContext } from "react-hook-form";
 
-const PorteSelect = ({ error, ...props }) => {
+const PorteSelect = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
-    <FormControl fullWidth error={!!error}>
+    <FormControl fullWidth error={!!errors?.porte}>
       <InputLabel id="porte-label">Porte</InputLabel>
       <Select
         fullWidth
         placeholder="Porte da empresa"
         labelId="porte-label"
         label="Porte"
-        {...props}
+        defaultValue={""}
+        {...register("porte")}
+        error={!!errors?.porte}
       >
-        <MenuItem value={3}>3</MenuItem>
-        <MenuItem value={5}>5</MenuItem>
+        <MenuItem value={3}>Medio Porte</MenuItem>
+        <MenuItem value={5}>Grande Porte</MenuItem>
+        <MenuItem value={6}>Ambos</MenuItem>
       </Select>
-      <FormHelperText>{error}</FormHelperText>
+      <FormHelperText>{errors?.porte?.message}</FormHelperText>
     </FormControl>
   );
 };
 
 export default PorteSelect;
-
-PorteSelect.propTypes = {
-  error: PropTypes.string,
-};
