@@ -1,17 +1,13 @@
 import Header from "../../components/Header";
-import { FaFilter } from "react-icons/fa";
-import { useFetchAllCnaes } from "../../hooks/cnaeHooks";
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { FaFilter, FaSearch } from "react-icons/fa";
+import { Box, Button, Grid, Typography } from "@mui/material";
+import CnaeAutocomplete from "@components/inputs/autocomplete/CnaeAutocomplete";
+import { useNavigate } from "react-router-dom";
+import { FormProvider, useForm } from "react-hook-form";
 
 const Home = () => {
-  const { data: cnaes } = useFetchAllCnaes();
+  const navigate = useNavigate();
+  const form = useForm();
 
   return (
     <Box
@@ -19,6 +15,11 @@ const Home = () => {
         minWidth: "100vw",
         minHeight: "100vh",
         backgroundColor: "background.default",
+        backgroundImage: "url(assets/images/company.svg)",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center bottom",
+        backgroundBlendMode: "soft-light",
+        backgroundSize: "60%",
       }}
     >
       <Header />
@@ -44,25 +45,27 @@ const Home = () => {
                   A poucos passos de seus novos clientes
                 </Typography>
 
-                <Autocomplete
-                  multiple
-                  sx={{
-                    width: "90%",
-                    maxWidth: "90%",
-                    backgroundColor: "white",
-                  }}
-                  options={
-                    cnaes
-                      ? cnaes?.map(cnae => ({
-                          label: cnae.descricao,
-                          id: cnae.id,
-                        }))
-                      : []
-                  }
-                  renderInput={params => (
-                    <TextField {...params} label="Cnaes" />
-                  )}
-                />
+                <FormProvider {...form}>
+                  <form
+                    style={{ width: "100%" }}
+                    onSubmit={form.handleSubmit(e => e.preventDefault)}
+                  >
+                    <Box sx={{ display: "flex", width: "100%" }}>
+                      <CnaeAutocomplete
+                        control={form.control}
+                        sx={{
+                          maxWidth: "80%",
+                        }}
+                      />
+                      <Button
+                        variant="contained"
+                        onClick={() => navigate("/map")}
+                      >
+                        <FaSearch />
+                      </Button>
+                    </Box>
+                  </form>
+                </FormProvider>
 
                 <Button
                   variant={"contained"}
@@ -70,7 +73,6 @@ const Home = () => {
                     color: "white",
                     backgroundColor: "blue.primary",
                     marginTop: 2,
-                    ":hover": { backgroundColor: "blue.light" },
                   }}
                   startIcon={<FaFilter />}
                 >

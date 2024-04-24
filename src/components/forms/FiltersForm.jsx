@@ -1,82 +1,80 @@
-import {
-  Button,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
-import React, { useContext, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Button, Grid, Typography } from "@mui/material";
+import { useContext } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { FiltersContext } from "../../contexts/FiltersContext";
-import SelectInput from "@mui/material/Select/SelectInput";
-import { useFetchAllCnaes, useFetchAllEmpresas } from "../../hooks/cnaeHooks";
+
+import CnaeAutocomplete from "@components/inputs/autocomplete/CnaeAutocomplete";
+import PorteSelect from "@components/inputs/selects/PorteSelect";
+import NatJuAutocomplete from "../inputs/autocomplete/NatJuAutocomplete";
+import SituacaoSelect from "../inputs/selects/SituacaoSelect";
+import TipoSelect from "../inputs/selects/TipoSelect";
+import CapitalSocialSelect from "../inputs/selects/CapitalSocialSelect";
+import OpcaoSimplesSelect from "../inputs/selects/OpcaoSimplesSelect";
+import FromDatePicker from "../inputs/date/openingDate/FromDatePicker";
+import ToDatePicker from "../inputs/date/openingDate/ToDatePicker";
 
 const FiltersForm = () => {
   const { updateFilters } = useContext(FiltersContext);
-  const { handleSubmit, register } = useForm();
-  const [cnae, setCnae] = useState("");
-  // const [empresa, setEmpresa] = React.useState("");
-  const { data: cnaes } = useFetchAllCnaes();
-  const { data: empresas } = useFetchAllEmpresas();
-  const uniquePortes = new Set(empresas?.map(empresa => empresa.porte));
+  const form = useForm({
+    defaultValues: {
+      cnae: [],
+      porte: "",
+      situacao: "ativa",
+      tipo: "",
+      natJu: [],
+      capitalSocial: 0,
+      opcaoSimples: "",
+      fromDate: null,
+      toDate: null,
+    },
+  });
 
-  const [selectedPorte, setSelectedPorte] = useState("");
-
-  const handleChange = event => {
-    setCnae(event.target.value);
-    register(cnae);
-  };
-  const handleChangePorte = event => {
-    setSelectedPorte(event.target.value);
-    register(selectedPorte);
-  };
   const onSubmit = data => {
     updateFilters(data);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <TextField label="CNAE" {...register("cnae")} />
+    <FormProvider {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <CnaeAutocomplete control={form.control} />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <PorteSelect />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <SituacaoSelect />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TipoSelect />
+          </Grid>
+          <Grid item xs={12}>
+            <NatJuAutocomplete control={form.control} />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <CapitalSocialSelect />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <OpcaoSimplesSelect />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="caption">Data de Abertura</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FromDatePicker />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <ToDatePicker />
+          </Grid>
+          <Grid item xs={12} display={"flex"} justifyContent={"flex-end"}>
+            <Button variant={"contained"} type="submit">
+              Filtrar
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={30} sm={2}>
-          <Select
-            labelId="simple-select-cnae"
-            id="simple-select-cnae"
-            value={cnae}
-            label="Cnae"
-            onChange={handleChange}
-          >
-            {cnaes?.map(cnae => (
-              <MenuItem key={cnae.id} value={cnae.id}>
-                {cnae.descricao}
-              </MenuItem>
-            ))}
-          </Select>
-          <Select
-            labelId="simple-select-empresa"
-            id="simple-select-empresa"
-            value={selectedPorte}
-            label="Empresa"
-            onChange={handleChangePorte}
-          >
-            {[...uniquePortes].map(porte => (
-              <MenuItem key={porte} value={porte}>
-                {porte}
-              </MenuItem>
-            ))}
-          </Select>
-          {console.log(empresas)}
-        </Grid>
-        <Grid item xs={12} display={"flex"} justifyContent={"flex-end"}>
-          <Button variant={"contained"} type="submit">
-            Filtrar
-          </Button>
-        </Grid>
-      </Grid>
-    </form>
+      </form>
+    </FormProvider>
   );
 };
 
