@@ -15,8 +15,8 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import LocationOnIcon from "@mui/icons-material/LocationOn"; // Exemplo de ícone de localização
-
-import SegmentInfoItem from "../segmentInfoItem/SegmentInfoItem";
+import QuadroSocios from "../../components/quadroSocios/QuadroSocios";
+import SegmentInfoItem from "../../components/segmentInfoItem/SegmentInfoItem";
 import {
   HandymanOutlined,
   Money,
@@ -26,12 +26,25 @@ import {
 } from "@mui/icons-material";
 import { FaBuilding } from "react-icons/fa";
 import theme from "../../styles/theme";
-import EmpresasRelacionadas from "../../pages/empresasRelacionadas/EmpresasRelacionadas";
-import CartaoCnpj from "../../pages/cartaoCnpj/CartaoCnpj";
+import EmpresasRelacionadas from "../../components/empresasRelacionadas/EmpresasRelacionadas";
+import CartaoCnpj from "../../components/cartaoCnpj/CartaoCnpj";
 // Dados de exemplo para o cartão CNPJ
 const cnpjData = {
   cnpj: "00.000.000/0001-00",
   razaoSocial: "Nome da Empresa Ltda",
+  nomeFantasia: "Nome Fantasia",
+  atividadePrincipal: "Atividade Principal",
+  atividadesSecundarias: ["Atividade Secundária 1", "Atividade Secundária 2"],
+  naturezaJuridica: "Natureza Jurídica",
+  abertura: "Data de Abertura",
+  situacao: "Situação",
+  cep: "00000-000",
+  logradouro: "Logradouro",
+  numero: "Número",
+  complemento: "Complemento",
+  bairro: "Bairro",
+  municipio: "Município",
+  
   // ... mais dados
 };
 
@@ -222,8 +235,14 @@ const EstabDetails = () => {
           <EmpresasRelacionadas />
         </Grid>
 
-        <Grid item xs={12} md={6} lg={8}>
+        <Grid  item  xs={12} md={6} lg={8} >
           <CartaoCnpj data={cnpjData} />
+          <Divider sx={{ my: 2 }} />
+          <QuadroSocios data={empresaData.socios} />
+        </Grid>
+
+        <Grid item xs={12} md={6} lg={8}> 
+          
         </Grid>
       </Grid>
     </Container>
