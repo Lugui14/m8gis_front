@@ -7,7 +7,7 @@ import EstabDetails from "../pages/estabDetails/EstabDetails";
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/map", element: <Map /> },
-  {path: "/estabelecimento", element :<EstabDetails/>}
+  {path: "/estabelecimento/:id", element :<EstabDetails/>}
 ]);
 
 export default router;
