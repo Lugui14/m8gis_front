@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import HeaderMenu from "./menu/HeaderMenu";
+import logoM8 from "/assets/images/logo_m8_sistemas.png";
 
 const Header = () => {
   return (
@@ -16,11 +17,7 @@ const Header = () => {
       }}
     >
       <Typography sx={{ fontSize: "2xl", fontWeight: "bold" }}>
-        <img
-          src="assets/images/logo_m8_sistemas.png"
-          alt="M8 Sistemas"
-          style={{ maxWidth: 150 }}
-        />
+        <img src={logoM8} alt="M8 Sistemas" style={{ maxWidth: 150 }} />
       </Typography>
       <HeaderMenu />
     </Box>

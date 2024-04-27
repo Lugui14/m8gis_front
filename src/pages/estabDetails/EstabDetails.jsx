@@ -17,6 +17,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import LocationOnIcon from "@mui/icons-material/LocationOn"; // Exemplo de ícone de localização
 import QuadroSocios from "../../components/quadroSocios/QuadroSocios";
 import SegmentInfoItem from "../../components/segmentInfoItem/SegmentInfoItem";
+import companyBackground from "/assets/images/company.svg"; // Certifique-se de ajustar o caminho do import para o correto
 import {
   HandymanOutlined,
   Money,
@@ -28,25 +29,15 @@ import { FaBuilding } from "react-icons/fa";
 import theme from "../../styles/theme";
 import EmpresasRelacionadas from "../../components/empresasRelacionadas/EmpresasRelacionadas";
 import CartaoCnpj from "../../components/cartaoCnpj/CartaoCnpj";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useFetchEstabs } from "@/hooks/estabHook";
+import Header from "@/components/Header";
+import testMap from "@/components/testMap/TestMap";
+import TestMap from "@/components/testMap/TestMap";
+
+
 // Dados de exemplo para o cartão CNPJ
-const cnpjData = {
-  cnpj: "00.000.000/0001-00",
-  razaoSocial: "Nome da Empresa Ltda",
-  nomeFantasia: "Nome Fantasia",
-  atividadePrincipal: "Atividade Principal",
-  atividadesSecundarias: ["Atividade Secundária 1", "Atividade Secundária 2"],
-  naturezaJuridica: "Natureza Jurídica",
-  abertura: "Data de Abertura",
-  situacao: "Situação",
-  cep: "00000-000",
-  logradouro: "Logradouro",
-  numero: "Número",
-  complemento: "Complemento",
-  bairro: "Bairro",
-  municipio: "Município",
-  
-  // ... mais dados
-};
 
 const InfoItem = ({ icon, title, value }) => {
   return (
@@ -77,6 +68,28 @@ const InfoItem = ({ icon, title, value }) => {
 };
 const EstabDetails = () => {
   // Placeholder data, replace with data from your database
+  const { id } = useParams(); // Acessando o ID da URL
+  const { data, isLoading, error } = useFetchEstabs(id);
+  //passando pro cartao cnpj
+  const cnpjData = {
+    cnpj: data?.cnpj_basico,
+    razaoSocial: data?.empresa?.razao_social,
+    nomeFantasia: data?.nome_fantasia,
+    cnae: data?.empresa?.cnae_descricao,
+    naturezaJuridica: data?.empresa?.natureza_juridica_descricao,
+    dataAbertura: data?.data_inicio_atividade,
+    cep: data?.endereco? data?.endereco?.cep : "",
+    bairro: data?.endereco ? data?.endereco?.bairro : "",
+    cidade: data?.endereco ? data?.endereco?.cidade : "",
+    logradouro: data?.endereco ? data?.endereco?.logradouro : "",
+    numero: data?.endereco ? data?.endereco?.numero : "",
+  };
+
+
+  console.log(data);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>An error occurred: {error.message}</div>;
   const empresaData = {
     telefone: "1",
     email: "example@example.com",
@@ -90,9 +103,21 @@ const EstabDetails = () => {
     socios: "0",
     funcionarios: "Informação não disponível",
   };
+  
 
   return (
-    <Container>
+    <Container
+      sx={{
+        minWidth: "100vw",
+        minHeight: "100vh",
+        backgroundColor: "background.default",
+        backgroundImage: `url(${companyBackground})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center bottom",
+        backgroundBlendMode: "soft-light",
+        backgroundSize: "60%",
+      }}>
+        <Header/>
       <Typography
         variant="h4"
         gutterBottom
@@ -100,7 +125,7 @@ const EstabDetails = () => {
         fontWeight={"bold"}
         marginTop={"40px"}
       >
-        Nome Empresa
+        {data.empresa.razao_social}
       </Typography>
       <Grid container spacing={2} alignItems="stretch">
         {/* Adicionado alignItems="stretch" para esticar os itens do grid */}
@@ -109,14 +134,16 @@ const EstabDetails = () => {
           {/* Ajustado para que md e lg tomem 4 de 12 */}
           <Paper elevation={1} sx={{ p: 2, minHeight: "100%" }}>
             {/* Adicionado minHeight */}
-            <Typography variant="h6" color={theme.palette.info.main}>
-              Resumo do Segmento
+            <Typography variant="h6" color={theme.palette.text.primary}>
+              Veja números relativos ao segmento de:
             </Typography>
             <Typography
-              variant="subtitle1"
-              color={theme.palette.text.secondary}
+              variant="h6"
+              fontSize={"22px"}
+              fontWeight={"bold"}
+              color={theme.palette.info.main}
             >
-              Lanchonetes, casas de chá, de sucos e similares
+              {data.empresa.cnae_descricao}
             </Typography>
             <Divider sx={{ my: 2 }} />
             <SegmentInfoItem
@@ -150,79 +177,79 @@ const EstabDetails = () => {
             }}
           >
             {/* Adicionado minHeight */}
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" gutterBottom fontSize={"32px"}>
               Informações Gerais
             </Typography>
             <Divider sx={{ my: 2 }} />
             <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "flex-start",
-                  flexGrow: 1,
-                  // Define o espaço entre os InfoItem
-                  "& > .MuiBox-root": {
-                    marginBottom: 2, // Espaço na parte inferior de cada InfoItem
-                  },
-                }}
-              >
-                {/* InfoItems */}
-                {/* ... InfoItems ... */}
-                <InfoItem
-                  icon={<PhoneIcon />}
-                  title="Telefones"
-                  value={empresaData.telefone}
-                />
-                <InfoItem
-                  icon={<EmailIcon />}
-                  title="E-mails"
-                  value={empresaData.email}
-                />
-                <InfoItem
-                  icon={<CalendarTodayIcon />}
-                  title="Data de Abertura"
-                  value={empresaData.dataAbertura}
-                />
-                <InfoItem
-                  icon={<CheckCircleOutlineIcon />}
-                  title="Situação"
-                  value={empresaData.situacao}
-                />
-                <InfoItem
-                  icon={<BusinessIcon />}
-                  title="Tipo"
-                  value={empresaData.tipo}
-                />
-                <InfoItem
-                  icon={<AttachMoneyIcon />}
-                  title="Capital Social"
-                  value={empresaData.capitalSocial}
-                />
-                <InfoItem
-                  icon={<FaBuilding />}
-                  title="Porte Estimado"
-                  value={empresaData.porte}
-                />
-                <InfoItem
-                  icon={<Person />}
-                  title="Socios"
-                  value={empresaData.socios}
-                />
-                <InfoItem
-                  icon={<HandymanOutlined />}
-                  title="Faturamento"
-                  value={empresaData.faturamentoPresumido}
-                />
-                <InfoItem
-                  icon={<People />}
-                  title="Quantidade de Funcionários"
-                  value={empresaData.funcionarios}
-                />
-                <InfoItem
-                  icon={<Receipt />}
-                  title="Tributação"
-                  value={empresaData.tributacao}
-                />
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "flex-start",
+                flexGrow: 1,
+                // Define o espaço entre os InfoItem
+                "& > .MuiBox-root": {
+                  marginBottom: 2, // Espaço na parte inferior de cada InfoItem
+                },
+              }}
+            >
+              {/* InfoItems */}
+              {/* ... InfoItems ... */}
+              <InfoItem
+                icon={<PhoneIcon />}
+                title="Telefones"
+                value={empresaData.telefone}
+              />
+              <InfoItem
+                icon={<EmailIcon />}
+                title="E-mails"
+                value={empresaData.email}
+              />
+              <InfoItem
+                icon={<CalendarTodayIcon />}
+                title="Data de Abertura"
+                value={data.data_inicio_atividade}
+              />
+              <InfoItem
+                icon={<CheckCircleOutlineIcon />}
+                title="Situação"
+                value={empresaData.situacao}
+              />
+              <InfoItem
+                icon={<BusinessIcon />}
+                title="Tipo"
+                value={empresaData.tipo}
+              />
+              <InfoItem
+                icon={<AttachMoneyIcon />}
+                title="Capital Social"
+                value={data.empresa.capital_social}
+              />
+              <InfoItem
+                icon={<FaBuilding />}
+                title="Porte Estimado"
+                value={data.empresa.porte}
+              />
+              <InfoItem
+                icon={<Person />}
+                title="Socios"
+                value={data?.empresa?.socios?.length}
+              />
+              <InfoItem
+                icon={<HandymanOutlined />}
+                title="Faturamento"
+                value={empresaData.faturamentoPresumido}
+              />
+              <InfoItem
+                icon={<People />}
+                title="Quantidade de Funcionários"
+                value={empresaData.funcionarios}
+              />
+              <InfoItem
+                icon={<Receipt />}
+                title="Tributação"
+                value={empresaData.tributacao}
+              />
             </Box>
             <Button variant="contained" color="primary">
               Ver as estatísticas do segmento
@@ -230,19 +257,23 @@ const EstabDetails = () => {
           </Paper>
         </Grid>
 
-        
         <Grid item xs={12} md={6} lg={4}>
           <EmpresasRelacionadas />
         </Grid>
 
-        <Grid  item  xs={12} md={6} lg={8} >
+        <Grid item xs={12} md={6} lg={8}>
           <CartaoCnpj data={cnpjData} />
           <Divider sx={{ my: 2 }} />
-          <QuadroSocios data={empresaData.socios} />
+          <QuadroSocios socios={data?.empresa?.socios || []} />
         </Grid>
-
-        <Grid item xs={12} md={6} lg={8}> 
-          
+        <Grid item xs={12} md={6} lg={8}>
+        <TestMap
+              address={data?.endereco?.logradouro.toLowerCase()}
+              city={data?.endereco?.cidade.toLowerCase()}
+              number = {data?.endereco?.numero}
+              country={"Brazil".toLowerCase()}
+            />
+            
         </Grid>
       </Grid>
     </Container>

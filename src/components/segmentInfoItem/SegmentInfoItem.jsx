@@ -13,7 +13,7 @@ return (
         mb: theme.spacing(2),
         bgcolor: 'background.paper',
         // Esta é a largura total do item, ajuste conforme necessário para seu layout
-        maxWidth: 345,
+        maxWidth: 450,
       }}>
         <Box sx={{ fontSize: theme.typography.h4.fontSize }}>
           {icon}

@@ -2,7 +2,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Box } from "@mui/material";
 import MapSpeedDial from "../../components/buttons/MapSpeedDial";
-import { estabelishment } from "@/helpers/fakeData";
+import { estabelishment } from "@/helpers/fakeData";  
 
 const Map = () => {
   return (
