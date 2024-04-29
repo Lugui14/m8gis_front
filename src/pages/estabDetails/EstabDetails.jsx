@@ -268,10 +268,10 @@ const EstabDetails = () => {
         </Grid>
         <Grid item xs={12} md={6} lg={8}>
         <TestMap
-              address={data?.endereco?.logradouro.toLowerCase()}
               city={data?.endereco?.cidade.toLowerCase()}
+              bairro={data?.endereco?.bairro.toLowerCase()}
+              address={data?.endereco?.logradouro.toLowerCase()}
               number = {data?.endereco?.numero}
-              country={"Brazil".toLowerCase()}
             />
             
         </Grid>

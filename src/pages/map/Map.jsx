@@ -29,9 +29,15 @@ const Map = () => {
           iconCreateFunction={createCustomClusterIcon}
         >
 
-          {estabelishment.map(({ id, lat, long, razao_social }) => (
+          {estabelishment.map(({ id, lat, long, razao_social, cnpj }) => (
             <Marker key={id} position={[lat, long]}>
-              <Popup>{razao_social}</Popup>
+              <Popup>
+                <div>
+                  <span>Nome: {razao_social}</span>
+                  <br />
+                  <span>CNPJ: {cnpj}</span>
+                </div>
+              </Popup>
             </Marker>
           ))}
 

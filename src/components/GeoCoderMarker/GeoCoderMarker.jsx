@@ -15,11 +15,11 @@ function GeoCoderMarker({address}) {
     console.log(address)
     const [position,setPosition]=useState([60,19])
     useEffect(()=>{
-      ELG.geocode().text(address).run((err,results,response)=>{
+      ELG.geocode({apikey:"AAPK85b1ed2c43294675a4463b5fb9c9c350YJKLr0Y3tFNySca1WlVeoLJx397TURUTcrUHB55FagTGn8UorfyV_kHXcpEx20Da"}).text(address).run((err,results,response)=>{
         if(results?.results?.length>0){
             const {lat, lng} =results?.results[0].latlng
             setPosition([lat,lng])
-            map.flyTo([lat,lng],6)
+            map.flyTo([lat,lng],16)
         }
         else{
             console.log("Endereço não encontrado")
