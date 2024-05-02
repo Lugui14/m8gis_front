@@ -258,7 +258,7 @@ const EstabDetails = () => {
         </Grid>
 
         <Grid item xs={12} md={6} lg={4}>
-          <EmpresasRelacionadas />
+          <EmpresasRelacionadas empresasRelacionadas={data?.empresa?.empresas_relacionadas || []}/>
         </Grid>
 
         <Grid item xs={12} md={6} lg={8}>

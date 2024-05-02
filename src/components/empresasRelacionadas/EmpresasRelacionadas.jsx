@@ -12,23 +12,24 @@ const EmpresaRelacionada = ({ name, address }) => {
   };
   
   // Lista de empresas relacionadas
-  const EmpresasRelacionadas = () => {
+  const EmpresasRelacionadas = ({ empresasRelacionadas }) => {
     // Exemplo de dados de empresas - substituir por dados reais
-    const companies = [
+    /*const companies = [
       { name: 'Empresa 1', address: 'Endereço 1' },
       { name: 'Empresa 2', address: 'Endereço 2' },
       { name: 'Empresa 33', address: 'Endereço 4' },
       { name: 'Empresa 44', address: 'Endereço 6' },
 
       // ... mais empresas
-    ];
+    ];*/
+    const companies = empresasRelacionadas
   
     return (
       <Paper sx={{ p: 2 }}>
         <Typography variant="h6" gutterBottom>Empresas Relacionadas</Typography>
         <Divider sx={{ mb: 2 }} />
         {companies.map((company, index) => (
-          <EmpresaRelacionada key={index} name={company.name} address={company.address} />
+          <EmpresaRelacionada key={index} name={company.razao_social} />
         ))}
         <Button sx={{ mt: 2 }} variant="contained" color="primary">Ver mais</Button>
       </Paper>
