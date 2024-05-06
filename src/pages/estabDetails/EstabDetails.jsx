@@ -33,7 +33,6 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useFetchEstabs } from "@/hooks/estabHook";
 import Header from "@/components/Header";
-import testMap from "@/components/testMap/TestMap";
 import TestMap from "@/components/testMap/TestMap";
 
 
@@ -86,7 +85,6 @@ const EstabDetails = () => {
   };
 
 
-  console.log(data);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
@@ -258,15 +256,16 @@ const EstabDetails = () => {
         </Grid>
 
         <Grid item xs={12} md={6} lg={4}>
-          <EmpresasRelacionadas empresasRelacionadas={data?.empresa?.empresas_relacionadas || []}/>
+          <EmpresasRelacionadas empresasRelacionadas={data?.empresa?.estabs_relacionados || []}/>
         </Grid>
 
         <Grid item xs={12} md={6} lg={8}>
           <CartaoCnpj data={cnpjData} />
           <Divider sx={{ my: 2 }} />
           <QuadroSocios socios={data?.empresa?.socios || []} />
+          <Divider sx={{my: 2}}/>
         </Grid>
-        <Grid item xs={12} md={6} lg={8}>
+        <Grid item xs={12} md={12} lg={12}>
         <TestMap
               city={data?.endereco?.cidade.toLowerCase()}
               bairro={data?.endereco?.bairro.toLowerCase()}

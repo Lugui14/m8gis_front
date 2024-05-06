@@ -12,7 +12,7 @@ L.Marker.prototype.options.icon=DefaultIcon
 
 function GeoCoderMarker({address}) {
     const map=useMap()
-    console.log(address)
+    // console.log(address)
     const [position,setPosition]=useState([60,19])
     useEffect(()=>{
       ELG.geocode({apikey:"AAPK85b1ed2c43294675a4463b5fb9c9c350YJKLr0Y3tFNySca1WlVeoLJx397TURUTcrUHB55FagTGn8UorfyV_kHXcpEx20Da"}).text(address).run((err,results,response)=>{
