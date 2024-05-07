@@ -4,9 +4,12 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import "leaflet/dist/leaflet.css";
 import { Box } from "@mui/material";
 import MapSpeedDial from "../../components/buttons/MapSpeedDial";
-import { estabelishment } from "@/helpers/fakeData";  
+import { useContext } from "react";
+import { FiltersContext } from "@/contexts/FiltersContext";
 
 const Map = () => {
+  const { estabelecimentos } = useContext(FiltersContext);
+
   const createCustomClusterIcon = cluster => {
     return new divIcon({
       html: `<div class="cluster-icon">${cluster.getChildCount()}</div>`,
@@ -28,19 +31,20 @@ const Map = () => {
           chunkedLoading
           iconCreateFunction={createCustomClusterIcon}
         >
-
-          {estabelishment.map(({ id, lat, long, razao_social, cnpj }) => (
-            <Marker key={id} position={[lat, long]}>
-              <Popup>
-                <div>
-                  <span>Nome: {razao_social}</span>
-                  <br />
-                  <span>CNPJ: {cnpj}</span>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-
+          {estabelecimentos &&
+            estabelecimentos
+              .filter(({ latitude, longitude }) => latitude && longitude)
+              .map(({ id, latitude, longitude, razao_social, cnpj_basico }) => (
+                <Marker key={id} position={[latitude, longitude]}>
+                  <Popup>
+                    <div>
+                      <span>Nome: {razao_social}</span>
+                      <br />
+                      <span>CNPJ: {cnpj_basico}</span>
+                    </div>
+                  </Popup>
+                </Marker>
+              ))}
         </MarkerClusterGroup>
       </MapContainer>
       <MapSpeedDial />

@@ -21,14 +21,14 @@ const SituacaoSelect = () => {
         placeholder="Situação"
         labelId="situacao-label"
         label="Situação"
-        defaultValue={"ativa"}
+        defaultValue={2}
         {...register("situacao")}
         error={!!errors?.situacao}
       >
-        <MenuItem value={"ativa"}>Ativa</MenuItem>
-        <MenuItem value={"suspensa"}>Suspensa</MenuItem>
-        <MenuItem value={"inapta"}>Inapta</MenuItem>
-        <MenuItem value={"baixada"}>Baixada</MenuItem>
+        <MenuItem value={2}>Ativa</MenuItem>
+        <MenuItem value={3}>Suspensa</MenuItem>
+        <MenuItem value={4}>Inapta</MenuItem>
+        <MenuItem value={5}>Baixada</MenuItem>
       </Select>
       <FormHelperText>{errors?.situacao?.message}</FormHelperText>
     </FormControl>

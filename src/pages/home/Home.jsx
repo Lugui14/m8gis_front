@@ -4,10 +4,22 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import CnaeAutocomplete from "@components/inputs/autocomplete/CnaeAutocomplete";
 import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
+import { useContext } from "react";
+import { FiltersContext } from "@/contexts/FiltersContext";
 
 const Home = () => {
   const navigate = useNavigate();
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      cnae: [],
+    },
+  });
+  const { homePageCnaeFilter } = useContext(FiltersContext);
+
+  const onSubmit = ({ cnae }) => {
+    homePageCnaeFilter(cnae);
+    navigate("/map");
+  };
 
   return (
     <Box
@@ -59,7 +71,7 @@ const Home = () => {
                       />
                       <Button
                         variant="contained"
-                        onClick={() => navigate("/map")}
+                        onClick={form.handleSubmit(onSubmit)}
                       >
                         <FaSearch />
                       </Button>

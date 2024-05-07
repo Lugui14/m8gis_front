@@ -18,9 +18,9 @@ const FiltersForm = () => {
   const form = useForm({
     defaultValues: {
       cnae: [],
-      porte: "",
-      situacao: "ativa",
-      tipo: "",
+      porte: null,
+      situacao: 2,
+      tipo: null,
       natJu: [],
       capitalSocial: 0,
       opcaoSimples: "",
