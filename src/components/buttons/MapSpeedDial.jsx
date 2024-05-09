@@ -4,12 +4,19 @@ import { FaFilter } from "react-icons/fa";
 import { CiExport } from "react-icons/ci";
 import { useState } from "react";
 import FiltersModal from "../modals/FiltersModal";
+import ExportModal from "../modals/ExportModal";
 
 function MapSpeedDial() {
   const [filterDrawer, setFilterDrawer] = useState(false);
 
   const onCloseFiltersModal = () => setFilterDrawer(false);
   const openFiltersModal = () => setFilterDrawer(true);
+
+
+  const [ExportDrawer, setExportDrawer] = useState(false);
+
+  const onCloseExportModal = () => setExportDrawer(false);
+  const openExportModal = () => setExportDrawer(true);
 
   return (
     <>
@@ -27,11 +34,12 @@ function MapSpeedDial() {
         <SpeedDialAction
           icon={<CiExport />}
           tooltipTitle={"Export"}
-          onClick={() => {}}
+          onClick={openExportModal}
         />
       </SpeedDial>
 
       <FiltersModal open={filterDrawer} onClose={onCloseFiltersModal} />
+      <ExportModal open={ExportDrawer} onClose={onCloseExportModal} />
     </>
   );
 }
