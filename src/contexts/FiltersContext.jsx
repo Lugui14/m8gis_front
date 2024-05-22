@@ -6,6 +6,7 @@ export const FiltersContext = createContext();
 
 const FiltersProvider = ({ children }) => {
   const [estabelecimentos, setEstabelecimentos] = useState([]);
+  const [total, setTotal] = useState(0);
 
   const [filters, setFilters] = useState({
     cnae: [],
@@ -17,15 +18,22 @@ const FiltersProvider = ({ children }) => {
     opcaoSimples: "",
     fromDate: null,
     toDate: null,
+    cidade: null,
+    bairro: "",
+    logradouro: "",
     page: 0,
   });
+
+  const changePage = page => {
+    setFilters({ ...filters, page });
+  };
 
   const homePageCnaeFilter = cnae => {
     setFilters({ ...filters, cnae: cnae });
   };
 
   const updateFilters = newFilters => {
-    setFilters(newFilters);
+    setFilters({ ...newFilters, page: 0 });
   };
 
   const formatFilters = filters => {
@@ -33,6 +41,7 @@ const FiltersProvider = ({ children }) => {
       ...filters,
       cnae: filters.cnae.map(cnae => cnae.id),
       natJu: filters.natJu.map(natJu => natJu.id),
+      cidade: filters.cidade ? filters.cidade.id : null,
     };
 
     return newFilters;
@@ -42,14 +51,22 @@ const FiltersProvider = ({ children }) => {
     const formatedFilters = formatFilters(filters);
     fetchEstabelecimentosByFilters(formatedFilters, formatedFilters.page).then(
       data => {
-        setEstabelecimentos(data);
+        setEstabelecimentos(data.estabelecimentos);
+        setTotal(data.total);
       }
     );
   }, [filters]);
 
   return (
     <FiltersContext.Provider
-      value={{ filters, updateFilters, homePageCnaeFilter, estabelecimentos }}
+      value={{
+        filters,
+        updateFilters,
+        homePageCnaeFilter,
+        estabelecimentos,
+        changePage,
+        total,
+      }}
     >
       {children}
     </FiltersContext.Provider>

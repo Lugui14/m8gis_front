@@ -12,6 +12,9 @@ import CapitalSocialSelect from "../inputs/selects/CapitalSocialSelect";
 import OpcaoSimplesSelect from "../inputs/selects/OpcaoSimplesSelect";
 import FromDatePicker from "../inputs/date/openingDate/FromDatePicker";
 import ToDatePicker from "../inputs/date/openingDate/ToDatePicker";
+import MunicipioAutocomplete from "../inputs/autocomplete/MunicipioAutocomplete";
+import LogradouroInput from "../inputs/fields/LogradouroInput";
+import BairrroInput from "../inputs/fields/BairroInput";
 
 const FiltersForm = () => {
   const { updateFilters } = useContext(FiltersContext);
@@ -24,6 +27,9 @@ const FiltersForm = () => {
       natJu: [],
       capitalSocial: 0,
       opcaoSimples: "",
+      cidade: null,
+      bairro: "",
+      logradouro: "",
       fromDate: null,
       toDate: null,
     },
@@ -57,6 +63,15 @@ const FiltersForm = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <OpcaoSimplesSelect />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <MunicipioAutocomplete control={form.control} />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <LogradouroInput />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <BairrroInput />
           </Grid>
           <Grid item xs={12}>
             <Typography variant="caption">Data de Abertura</Typography>
