@@ -42,13 +42,6 @@ const Map = () => {
               .map(({ id, latitude, longitude, razao_social, cnpj_basico,cnae,endereco }) => (
                 <Marker key={id} position={[latitude, longitude]}>
                   <Popup>
-                    {/* <div>
-                      <span>Nome: {razao_social}</span>
-                      <br />
-                      <span>CNPJ: {cnpj_basico}</span>
-                      <br />
-                      <Button onClick={() => handleViewMore(id)}>Ver detalhes</Button>
-                    </div> */}
                     <Paper sx={{ p: 4 }}>
                       <Typography variant="h6" gutterBottom component="div">
                       {razao_social}
