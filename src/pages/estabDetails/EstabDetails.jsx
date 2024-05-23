@@ -254,7 +254,7 @@ const EstabDetails = () => {
             </Button>
           </Paper>
         </Grid>
-
+            {/* {console.log(data?.empresa)} */}
         <Grid item xs={12} md={6} lg={4}>
           <EmpresasRelacionadas empresasRelacionadas={data?.empresa?.estabs_relacionados || []}/>
         </Grid>

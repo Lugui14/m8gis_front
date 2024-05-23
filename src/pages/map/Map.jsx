@@ -2,13 +2,18 @@ import { divIcon, point } from "leaflet";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import "leaflet/dist/leaflet.css";
-import { Box } from "@mui/material";
+import { Box, Button, Divider, Paper, Typography } from "@mui/material";
 import MapSpeedDial from "../../components/buttons/MapSpeedDial";
 import { useContext } from "react";
 import { FiltersContext } from "@/contexts/FiltersContext";
+import { useNavigate } from "react-router-dom";
 
 const Map = () => {
   const { estabelecimentos } = useContext(FiltersContext);
+  const navigate = useNavigate();
+  const handleViewMore = id => {
+    navigate(`/estabelecimento/${id}`);
+  };
 
   const createCustomClusterIcon = cluster => {
     return new divIcon({
@@ -30,17 +35,55 @@ const Map = () => {
           chunkedLoading
           iconCreateFunction={createCustomClusterIcon}
         >
+          {console.log(estabelecimentos)}
           {estabelecimentos &&
             estabelecimentos
               .filter(({ latitude, longitude }) => latitude && longitude)
-              .map(({ id, latitude, longitude, razao_social, cnpj_basico }) => (
+              .map(({ id, latitude, longitude, razao_social, cnpj_basico,cnae,endereco }) => (
                 <Marker key={id} position={[latitude, longitude]}>
                   <Popup>
-                    <div>
+                    {/* <div>
                       <span>Nome: {razao_social}</span>
                       <br />
                       <span>CNPJ: {cnpj_basico}</span>
-                    </div>
+                      <br />
+                      <Button onClick={() => handleViewMore(id)}>Ver detalhes</Button>
+                    </div> */}
+                    <Paper sx={{ p: 4 }}>
+                      <Typography variant="h6" gutterBottom component="div">
+                      {razao_social}
+
+                      </Typography>
+                      <Divider sx={{ mb: 2 }} />
+                        <Box key={id} sx={{ mb: 2 }}>
+                          <Typography
+                            variant="caption"
+                            display="block"
+                            gutterBottom
+                            color="primary"
+                            fontWeight={"bold"}
+                            fontSize={"18px"}
+                          >
+                            CNPJ: {cnpj_basico}
+                            
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={"18px"}
+                          >
+                            Endereco: {endereco}
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={"18px"}
+                          >
+                            Capital Social:
+                          </Typography>
+                          <Button  variant="contained" color="primary" onClick={() => handleViewMore(id)}>Ver detalhes</Button>
+                        </Box>
+                    </Paper>
                   </Popup>
                 </Marker>
               ))}

@@ -24,12 +24,13 @@ const EmpresaRelacionada = ({ id, name, address, onViewMore }) => {
     const handleViewMore=(id)=>{
       navigate (`/estabelecimento/${id}`)
     }
+    {console.log(empresasRelacionadas)}
     return (
       <Paper sx={{ p: 2 }}>
         <Typography variant="h6" gutterBottom>Empresas Relacionadas</Typography>
         <Divider sx={{ mb: 2 }} />
         {empresasRelacionadas.map((company, index) => (
-          <EmpresaRelacionada key={index} id={company.id} name={company.razao_social} address={formatarEndereco(company.endereco)} onViewMore={handleViewMore} />
+          <EmpresaRelacionada key={index} id={company.id_estabelecimento} name={company.razao_social} address={formatarEndereco(company.endereco)} onViewMore={handleViewMore} />
         ))}
         <Button sx={{ mt: 2 }} variant="contained" color="primary">Ver mais</Button>
       </Paper>
