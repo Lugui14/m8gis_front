@@ -39,7 +39,7 @@ const Map = () => {
           {estabelecimentos &&
             estabelecimentos
               .filter(({ latitude, longitude }) => latitude && longitude)
-              .map(({ id, latitude, longitude, razao_social, cnpj_basico,cnae,endereco }) => (
+              .map(({ id, latitude, longitude, razao_social, cnpj_basico,endereco }) => (
                 <Marker key={id} position={[latitude, longitude]}>
                   <Popup>
                     <Paper sx={{ p: 4 }}>
