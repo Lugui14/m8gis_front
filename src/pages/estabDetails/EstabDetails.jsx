@@ -34,23 +34,14 @@ import { useState, useEffect } from "react";
 import { useFetchEstabs } from "@/hooks/estabHook";
 import Header from "@/components/Header";
 import TestMap from "@/components/testMap/TestMap";
+import PropTypes from "prop-types";
 
 // Dados de exemplo para o cartão CNPJ
 
 const InfoItem = ({ icon, title, value }) => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: { xs: "row", sm: "column" },
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        width: { sm: "100%", md: "50%", lg: "25%" }, // Ajusta o tamanho de acordo com breakpoints
-        p: 2, // padding
-      }}
-    >
-      <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+    <Grid item xs={12} md={6} lg={4}>
+      <Box sx={{ display: "flex", width: "100%" }}>
         {icon}
         <Box sx={{ ml: 2, textAlign: "left" }}>
           <Typography variant="title" display="flex" gutterBottom>
@@ -61,7 +52,7 @@ const InfoItem = ({ icon, title, value }) => {
           </Typography>
         </Box>
       </Box>
-    </Box>
+    </Grid>
   );
 };
 const EstabDetails = () => {
@@ -176,18 +167,8 @@ const EstabDetails = () => {
               Informações Gerais
             </Typography>
             <Divider sx={{ my: 2 }} />
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "flex-start",
-                flexGrow: 1,
-                // Define o espaço entre os InfoItem
-                "& > .MuiBox-root": {
-                  marginBottom: 2, // Espaço na parte inferior de cada InfoItem
-                },
-              }}
-            >
+
+            <Grid container spacing={6} sx={{ p: 4 }}>
               {/* InfoItems */}
               {/* ... InfoItems ... */}
               <InfoItem
@@ -245,7 +226,7 @@ const EstabDetails = () => {
                 title="Tributação"
                 value={empresaData.tributacao}
               />
-            </Box>
+            </Grid>
             <Button variant="contained" color="primary">
               Ver as estatísticas do segmento
             </Button>
@@ -278,3 +259,9 @@ const EstabDetails = () => {
 };
 
 export default EstabDetails;
+
+InfoItem.propTypes = {
+  icon: PropTypes.node,
+  title: PropTypes.string,
+  value: PropTypes.string,
+};
