@@ -35,7 +35,6 @@ import { useFetchEstabs } from "@/hooks/estabHook";
 import Header from "@/components/Header";
 import TestMap from "@/components/testMap/TestMap";
 
-
 // Dados de exemplo para o cartão CNPJ
 
 const InfoItem = ({ icon, title, value }) => {
@@ -77,14 +76,12 @@ const EstabDetails = () => {
     cnae: data?.empresa?.cnae_descricao,
     naturezaJuridica: data?.empresa?.natureza_juridica_descricao,
     dataAbertura: data?.data_inicio_atividade,
-    cep: data?.endereco? data?.endereco?.cep : "",
+    cep: data?.endereco ? data?.endereco?.cep : "",
     bairro: data?.endereco ? data?.endereco?.bairro : "",
     cidade: data?.endereco ? data?.endereco?.cidade : "",
     logradouro: data?.endereco ? data?.endereco?.logradouro : "",
     numero: data?.endereco ? data?.endereco?.numero : "",
   };
-
-
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
@@ -101,7 +98,6 @@ const EstabDetails = () => {
     socios: "0",
     funcionarios: "Informação não disponível",
   };
-  
 
   return (
     <Container
@@ -114,8 +110,9 @@ const EstabDetails = () => {
         backgroundPosition: "center bottom",
         backgroundBlendMode: "soft-light",
         backgroundSize: "60%",
-      }}>
-        <Header/>
+      }}
+    >
+      <Header />
       <Typography
         variant="h4"
         gutterBottom
@@ -254,25 +251,26 @@ const EstabDetails = () => {
             </Button>
           </Paper>
         </Grid>
-            {/* {console.log(data?.empresa)} */}
+        {/* {console.log(data?.empresa)} */}
         <Grid item xs={12} md={6} lg={4}>
-          <EmpresasRelacionadas empresasRelacionadas={data?.empresa?.estabs_relacionados || []}/>
+          <EmpresasRelacionadas
+            empresasRelacionadas={data?.empresa?.estabs_relacionados || []}
+          />
         </Grid>
 
         <Grid item xs={12} md={6} lg={8}>
           <CartaoCnpj data={cnpjData} />
           <Divider sx={{ my: 2 }} />
           <QuadroSocios socios={data?.empresa?.socios || []} />
-          <Divider sx={{my: 2}}/>
+          <Divider sx={{ my: 2 }} />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-        <TestMap
-              city={data?.endereco?.cidade.toLowerCase()}
-              bairro={data?.endereco?.bairro.toLowerCase()}
-              address={data?.endereco?.logradouro.toLowerCase()}
-              number = {data?.endereco?.numero}
-            />
-            
+          <TestMap
+            city={data?.endereco?.cidade.toLowerCase()}
+            bairro={data?.endereco?.bairro.toLowerCase()}
+            address={data?.endereco?.logradouro.toLowerCase()}
+            number={data?.endereco?.numero}
+          />
         </Grid>
       </Grid>
     </Container>

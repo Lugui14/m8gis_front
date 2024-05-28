@@ -12,7 +12,7 @@ function TestMap({ city, bairro, address, number }) {
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       ></TileLayer>
       <GeoCoderMarker address={`${city} ${bairro} ${address} ${number}`} />
     </MapContainer>

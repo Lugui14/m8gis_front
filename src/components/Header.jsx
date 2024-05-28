@@ -1,8 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import HeaderMenu from "./menu/HeaderMenu";
 import logoM8 from "/assets/images/logo_m8_sistemas.png";
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ sx }) => {
+  const navigate = useNavigate();
+
+  const handlerBackHome = () => navigate("/");
+
   return (
     <Box
       sx={{
@@ -13,11 +19,22 @@ const Header = () => {
         justifyContent: "space-between",
         alignItems: "center",
         color: "text.primary",
-        marginBottom: "15vh",
+        ...sx,
       }}
     >
-      <Typography sx={{ fontSize: "2xl", fontWeight: "bold" }}>
-        <img src={logoM8} alt="M8 Sistemas" style={{ maxWidth: 150 }} />
+      <Typography
+        sx={{
+          fontSize: "2xl",
+          fontWeight: "bold",
+          ":hover": { cursor: "pointer" },
+        }}
+      >
+        <img
+          onClick={handlerBackHome}
+          src={logoM8}
+          alt="M8 Sistemas"
+          style={{ maxWidth: 150 }}
+        />
       </Typography>
       <HeaderMenu />
     </Box>
@@ -25,3 +42,7 @@ const Header = () => {
 };
 
 export default Header;
+
+Header.propTypes = {
+  sx: PropTypes.object,
+};

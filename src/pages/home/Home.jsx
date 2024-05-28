@@ -34,7 +34,7 @@ const Home = () => {
         backgroundSize: "60%",
       }}
     >
-      <Header />
+      <Header sx={{ marginBottom: "15vh" }} />
       <Grid container spacing={2}>
         <Grid className="hero" item xs={12}>
           <Grid sx={{ paddingX: 16 }} container>
