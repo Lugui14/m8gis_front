@@ -56,7 +56,6 @@ const FiltersProvider = ({ children }) => {
       }
     );
   }, [filters]);
-
   return (
     <FiltersContext.Provider
       value={{

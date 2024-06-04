@@ -15,6 +15,8 @@ import ToDatePicker from "../inputs/date/openingDate/ToDatePicker";
 import MunicipioAutocomplete from "../inputs/autocomplete/MunicipioAutocomplete";
 import LogradouroInput from "../inputs/fields/LogradouroInput";
 import BairrroInput from "../inputs/fields/BairroInput";
+import { useNavigate } from "react-router-dom";
+
 
 const FiltersForm = () => {
   const { updateFilters } = useContext(FiltersContext);
@@ -34,9 +36,13 @@ const FiltersForm = () => {
       toDate: null,
     },
   });
+  const navigate = useNavigate();
 
   const onSubmit = data => {
+    console.log(data)
     updateFilters(data);
+    navigate("/map");
+    
   };
 
   return (

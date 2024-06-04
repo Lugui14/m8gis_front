@@ -35,7 +35,7 @@ const Map = () => {
           chunkedLoading
           iconCreateFunction={createCustomClusterIcon}
         >
-          {console.log(estabelecimentos)}
+          {/* {console.log(estabelecimentos)} */}
           {estabelecimentos &&
             estabelecimentos
               .filter(({ latitude, longitude }) => latitude && longitude)

@@ -4,8 +4,10 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import CnaeAutocomplete from "@components/inputs/autocomplete/CnaeAutocomplete";
 import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FiltersContext } from "@/contexts/FiltersContext";
+import FiltersModal from "../../components/modals/FiltersModal";
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -15,6 +17,10 @@ const Home = () => {
     },
   });
   const { homePageCnaeFilter } = useContext(FiltersContext);
+  const [filterDrawer, setFilterDrawer] = useState(false);
+
+  const onCloseFiltersModal = () => setFilterDrawer(false);
+  const openFiltersModal = () => setFilterDrawer(true);
 
   const onSubmit = ({ cnae }) => {
     homePageCnaeFilter(cnae);
@@ -87,7 +93,10 @@ const Home = () => {
                     marginTop: 2,
                   }}
                   startIcon={<FaFilter />}
+                  onClick={openFiltersModal}
                 >
+                    <FiltersModal open={filterDrawer} onClose={onCloseFiltersModal} />
+
                   Mais Filtros
                 </Button>
               </Box>
