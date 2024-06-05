@@ -1,10 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { fetchEstabelecimentosByFilters } from "@/api/estabApi";
+import { NotificationContext } from "./NotificationContext";
 
 export const FiltersContext = createContext();
 
 const FiltersProvider = ({ children }) => {
+  const { handleLoading, handleError } = useContext(NotificationContext);
   const [estabelecimentos, setEstabelecimentos] = useState([]);
   const [total, setTotal] = useState(0);
 
@@ -49,13 +51,21 @@ const FiltersProvider = ({ children }) => {
 
   useEffect(() => {
     const formatedFilters = formatFilters(filters);
-    fetchEstabelecimentosByFilters(formatedFilters, formatedFilters.page).then(
-      data => {
+
+    handleLoading(true);
+
+    fetchEstabelecimentosByFilters(formatedFilters, formatedFilters.page)
+      .then(data => {
+        handleLoading(false);
         setEstabelecimentos(data.estabelecimentos);
         setTotal(data.total);
-      }
-    );
-  }, [filters]);
+      })
+      .catch(err => {
+        handleLoading(false);
+        handleError(err.response.data.message);
+      });
+  }, [filters]); // eslint-disable-line
+
   return (
     <FiltersContext.Provider
       value={{

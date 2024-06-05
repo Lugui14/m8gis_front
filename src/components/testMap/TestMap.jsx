@@ -1,6 +1,6 @@
-import React from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import GeoCoderMarker from "../GeoCoderMarker/GeoCoderMarker";
+import PropTypes from "prop-types";
 
 function TestMap({ city, bairro, address, number }) {
   return (
@@ -20,3 +20,10 @@ function TestMap({ city, bairro, address, number }) {
 }
 
 export default TestMap;
+
+TestMap.propTypes = {
+  city: PropTypes.string,
+  bairro: PropTypes.string,
+  address: PropTypes.string,
+  number: PropTypes.string,
+};
