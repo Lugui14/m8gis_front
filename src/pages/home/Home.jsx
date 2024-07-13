@@ -1,13 +1,12 @@
 import Header from "../../components/Header";
+import "./Home.css";
 import { FaFilter, FaSearch } from "react-icons/fa";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import CnaeAutocomplete from "@components/inputs/autocomplete/CnaeAutocomplete";
 import { useNavigate } from "react-router-dom";
-import { FormProvider, useForm } from "react-hook-form";
-import { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useContext } from "react";
 import { FiltersContext } from "@/contexts/FiltersContext";
-import FiltersModal from "../../components/modals/FiltersModal";
-
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,10 +16,6 @@ const Home = () => {
     },
   });
   const { homePageCnaeFilter } = useContext(FiltersContext);
-  const [filterDrawer, setFilterDrawer] = useState(false);
-
-  const onCloseFiltersModal = () => setFilterDrawer(false);
-  const openFiltersModal = () => setFilterDrawer(true);
 
   const onSubmit = ({ cnae }) => {
     homePageCnaeFilter(cnae);
@@ -32,83 +27,82 @@ const Home = () => {
       sx={{
         minWidth: "100vw",
         minHeight: "100vh",
-        backgroundColor: "background.default",
-        backgroundImage: "url(assets/images/company.svg)",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center bottom",
-        backgroundBlendMode: "soft-light",
-        backgroundSize: "60%",
+        background:
+          "radial-gradient(circle, #0283FA 0%, #3CD0FF 30%, rgba(255,255,255,1) 90%)",
       }}
     >
-      <Header sx={{ marginBottom: "15vh" }} />
-      <Grid container spacing={2}>
-        <Grid className="hero" item xs={12}>
-          <Grid sx={{ paddingX: 16 }} container>
-            <Grid item xs={8}>
-              <Box
+      <Box className="glassmorphism-bg">
+        <Header />
+        <Box
+          width={"100%"}
+          display={"flex"}
+          justifyContent={"space-around"}
+          alignItems={"center"}
+          height={"70vh"}
+          px={8}
+        >
+          <Box display={"flex"} flexDirection={"column"} gap={2} width={"35%"}>
+            <Typography
+              as={"h1"}
+              fontSize={64}
+              fontWeight={"bold"}
+              color={"text.primary"}
+            >
+              Captação de <br /> leads M8 Sistemas
+            </Typography>
+            <Typography
+              as={"h4"}
+              fontSize={24}
+              color={"text.primary"}
+              fontWeight={"light"}
+              mb={2}
+            >
+              GIS de localização de empresas <br /> para captação de novos leads
+            </Typography>
+            <Box>
+              <Typography p={1} color={"text.primary"}>
+                {" "}
+                Insira um ou mais CNAEs para pesquisa
+              </Typography>
+              <CnaeAutocomplete
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "flex-start",
-                  height: "100%",
-                  color: "text.primary",
-                  gap: 2,
+                  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                    border: 0,
+                  },
+                  borderRadius: 2,
                 }}
-              >
-                <Typography sx={{ fontWeight: "bold", fontSize: 48 }}>
-                  Análise geográfica de empresas
-                </Typography>
-                <Typography sx={{ fontWeight: "light", fontSize: 24 }}>
-                  A poucos passos de seus novos clientes
-                </Typography>
-
-                <FormProvider {...form}>
-                  <form
-                    style={{ width: "100%" }}
-                    onSubmit={form.handleSubmit(e => e.preventDefault)}
-                  >
-                    <Box sx={{ display: "flex", width: "100%" }}>
-                      <CnaeAutocomplete
-                        control={form.control}
-                        sx={{
-                          maxWidth: "80%",
-                        }}
-                      />
-                      <Button
-                        variant="contained"
-                        onClick={form.handleSubmit(onSubmit)}
-                      >
-                        <FaSearch />
-                      </Button>
-                    </Box>
-                  </form>
-                </FormProvider>
-
-                <Button
-                  variant={"contained"}
-                  sx={{
-                    color: "white",
-                    backgroundColor: "blue.primary",
-                    marginTop: 2,
-                  }}
-                  startIcon={<FaFilter />}
-                  onClick={openFiltersModal}
-                >
-                    <FiltersModal open={filterDrawer} onClose={onCloseFiltersModal} />
-
-                  Mais Filtros
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={4}>
-              <Box>
-                <img src="assets/images/map.svg" alt="MAP SVG" />
-              </Box>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+                control={form.control}
+              />
+            </Box>
+            <Button
+              variant="contained"
+              onClick={form.handleSubmit(onSubmit)}
+              sx={{
+                mt: 3,
+                background:
+                  "linear-gradient(90deg, rgba(67,135,218,1) 0%, rgba(109,174,254,1) 100%);",
+                fontWeight: "bold",
+                fontSize: 18,
+                color: "white",
+                boxShadow: 0,
+                borderRadius: 3,
+                py: 1,
+                width: "25%",
+              }}
+            >
+              Pesquisar
+            </Button>
+          </Box>
+          <Box>
+            <img
+              width={"80%"}
+              style={{ transform: "rotateY(180deg)" }}
+              src="adventurer.svg"
+              alt="global"
+            />
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 };

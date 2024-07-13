@@ -17,7 +17,7 @@ const CnaeAutocomplete = ({ sx, control, ...props }) => {
           <Autocomplete
             {...props}
             multiple
-            sx={{ backgroundColor: "white", ...sx }}
+            sx={{ backgroundColor: "white", stroke: 0, ...sx }}
             options={!isLoading ? cnaes : []}
             loading={isLoading}
             value={value}
@@ -30,6 +30,7 @@ const CnaeAutocomplete = ({ sx, control, ...props }) => {
             renderInput={params => (
               <TextField
                 {...params}
+                sx={sx}
                 label="CNAE"
                 inputRef={ref}
                 error={!!error}

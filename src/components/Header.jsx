@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import HeaderMenu from "./menu/HeaderMenu";
 import logoM8 from "/assets/images/logo_m8_sistemas.png";
 import PropTypes from "prop-types";
@@ -9,13 +9,14 @@ const Header = ({ sx }) => {
 
   const handlerBackHome = () => navigate("/");
 
+  const handlerGoMap = () => navigate("/map");
+
   return (
     <Box
       sx={{
         display: "flex",
-        maxWidth: "100vw",
         paddingX: 16,
-        paddingY: 4,
+        paddingY: 6,
         justifyContent: "space-between",
         alignItems: "center",
         color: "text.primary",
@@ -36,7 +37,25 @@ const Header = ({ sx }) => {
           style={{ maxWidth: 150 }}
         />
       </Typography>
-      <HeaderMenu />
+      <Button
+        onClick={handlerGoMap}
+        sx={{
+          backgroundColor: "white",
+          borderRadius: 4,
+          px: 3,
+          py: 2,
+          border: "2px solid rgba(0,0,100,0.6)",
+          boxShadow: " 0px 4px 15px -5px rgba(0,0,0,0.5)",
+        }}
+      >
+        <Typography
+          sx={{ color: "text.primary" }}
+          fontWeight={"bold"}
+          fontSize={20}
+        >
+          Abrir Mapa
+        </Typography>
+      </Button>
     </Box>
   );
 };
