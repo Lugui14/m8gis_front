@@ -1,16 +1,17 @@
-import { divIcon, point } from "leaflet";
+/* eslint-disable react/prop-types */
+import { divIcon, point, Icon, Routing, latLng, marker, polyline, geoJSON } from "leaflet";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import "leaflet/dist/leaflet.css";
 import { Box, Button, Divider, Paper, Typography } from "@mui/material";
 import MapSpeedDial from "../../components/buttons/MapSpeedDial";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { FiltersContext } from "@/contexts/FiltersContext";
 import { useNavigate } from "react-router-dom";
-import L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import * as turf from '@turf/turf';
+import EnumCnaes from "../../enum/EnumCnaes"
 
 const Map = () => {
   const { estabelecimentos } = useContext(FiltersContext);
@@ -27,7 +28,7 @@ const Map = () => {
     });
   };
 
-  const redIcon = new L.Icon({
+  const redIcon = new Icon({
     iconUrl: '/pins/red.png',
     iconSize: [40, 41],
     iconAnchor: [12, 41],
@@ -35,7 +36,7 @@ const Map = () => {
     shadowSize: [41, 41]
   });
 
-  const yellowIcon = new L.Icon({
+  const yellowIcon = new Icon({
     iconUrl: '/pins/yellow.png',
     iconSize: [40, 41],
     iconAnchor: [12, 41],
@@ -43,7 +44,7 @@ const Map = () => {
     shadowSize: [41, 41]
   });
 
-  const greenIcon = new L.Icon({
+  const greenIcon = new Icon({
     iconUrl: '/pins/greenFlag.png',
     iconSize: [40, 41],
     iconAnchor: [12, 41],
@@ -51,7 +52,7 @@ const Map = () => {
     shadowSize: [41, 41]
   });
 
-  const flagIcon = new L.Icon({
+  const flagIcon = new Icon({
     iconUrl: '/pins/flag.png',
     iconSize: [40, 41],
     iconAnchor: [12, 41],
@@ -61,7 +62,7 @@ const Map = () => {
 
   const cnaesIcons = (cnae, id) => {
     if (id === 0) {
-      return new L.Icon({
+      return new Icon({
         iconUrl: `/pins/cnaes/${cnae}/red.png`,
         iconSize: [35, 41],
         iconAnchor: [12, 41],
@@ -70,7 +71,7 @@ const Map = () => {
       });
     }
 
-    return new L.Icon({
+    return new Icon({
       iconUrl: `/pins/cnaes/${cnae}/yellow.png`,
       iconSize: [35, 41],
       iconAnchor: [12, 41],
@@ -81,18 +82,10 @@ const Map = () => {
 
   const getIconType = (cnae, id) => {
     const teste = id % 2
-    switch (cnae) {
-      case 4520001:
-        return cnaesIcons(cnae, teste);
-      case 4530703:
-        return cnaesIcons(cnae, teste);
-      case 4530705:
-        return cnaesIcons(cnae, teste);
-      case 4774100:
-        return cnaesIcons(cnae, teste);
-      default:
-        return getIcon(teste); 
+    if ([EnumCnaes.MANUTENCAO_MECANICA, EnumCnaes.PECAS_AUTOMOTORES, EnumCnaes.PNEUMATICOS, EnumCnaes.OPTICA].includes(cnae)){
+      return cnaesIcons(cnae, teste);
     }
+        return getIcon(teste); 
   };
 
   const getIcon = id => {
@@ -104,21 +97,22 @@ const Map = () => {
     }
   };
 
-  const RoutingControl = () => {
+  const RoutingControlWithBuffer = ({ start, end, buffer }) => {
     const map = useMap();
+    const bufferLayerRef = useRef(null);
 
     useEffect(() => {
       if (!map) return;
 
-      const routingControl = L.Routing.control({
-        waypoints: [L.latLng(-27.1264268, -52.6098364), L.latLng(-27.0952861, -52.7050167)],
+      const routingControl = Routing.control({
+        waypoints: [latLng(start[0], start[1]), latLng(end[0], end[1])],
         routeWhileDragging: true,
         lineOptions: {
           styles: [{ color: '#3b7abd', weight: 4 }]
         },
         createMarker: (i, waypoint, n) => {
           const markers = [greenIcon, flagIcon];
-          return L.marker(waypoint.latLng, {
+          return marker(waypoint.latLng, {
             icon: markers[i % markers.length]
           });
         },
@@ -126,13 +120,18 @@ const Map = () => {
 
       routingControl.on('routesfound', e => {
         const route = e.routes[0];
-        const line = L.polyline(route.coordinates);
+        const line = polyline(route.coordinates);
 
         const lineString = turf.lineString(route.coordinates.map(coord => [coord.lng, coord.lat]));
 
-        const buffered = turf.buffer(lineString, 500, { units: 'meters' });
+        const buffered = turf.buffer(lineString, buffer, { units: 'meters' });
 
-        L.geoJSON(buffered, {
+        if (bufferLayerRef.current) {
+          map.removeLayer(bufferLayerRef.current);
+          bufferLayerRef.current = null; 
+        }
+
+        bufferLayerRef.current = geoJSON(buffered, {
           style: {
             color: '#579cd5',
             weight: 2,
@@ -143,9 +142,14 @@ const Map = () => {
       });
 
       return () => {
+        routingControl.off()
         map.removeControl(routingControl);
+        if (bufferLayerRef.current) {
+          map.removeLayer(bufferLayerRef.current);
+          bufferLayerRef.current = null;
+        }
       };
-    }, );
+    }, [map, start, end, buffer]);
 
     return null;
   };
@@ -209,10 +213,10 @@ const Map = () => {
               ))}
         </MarkerClusterGroup>
         {estabelecimentos && estabelecimentos.length > 1 && (
-          <RoutingControl
-            start={[estabelecimentos[0].latitude, estabelecimentos[0].longitude]}
-            end={[estabelecimentos[1].latitude, estabelecimentos[1].longitude]}
-            buffer={1}
+          <RoutingControlWithBuffer
+          start={[estabelecimentos[0].latitude, estabelecimentos[0].longitude]}
+          end={[estabelecimentos[1].latitude, estabelecimentos[1].longitude]}
+          buffer={500}
           />
         )}
       </MapContainer>
