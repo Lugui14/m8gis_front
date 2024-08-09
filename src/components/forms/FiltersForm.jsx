@@ -36,6 +36,7 @@ const FiltersForm = () => {
       toDate: null,
     },
   });
+  
   const navigate = useNavigate();
 
   const onSubmit = data => {

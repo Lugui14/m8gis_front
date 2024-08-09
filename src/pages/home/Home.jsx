@@ -1,7 +1,6 @@
 import Header from "../../components/Header";
 import "./Home.css";
-import { FaFilter, FaSearch } from "react-icons/fa";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import CnaeAutocomplete from "@components/inputs/autocomplete/CnaeAutocomplete";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";

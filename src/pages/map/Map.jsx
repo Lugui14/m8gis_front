@@ -1,5 +1,14 @@
 /* eslint-disable react/prop-types */
-import { divIcon, point, Icon, Routing, latLng, marker, polyline, geoJSON } from "leaflet";
+import {
+  divIcon,
+  point,
+  Icon,
+  Routing,
+  latLng,
+  marker,
+  polyline,
+  geoJSON,
+} from "leaflet";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import "leaflet/dist/leaflet.css";
@@ -8,13 +17,13 @@ import MapSpeedDial from "../../components/buttons/MapSpeedDial";
 import { useContext, useEffect, useRef } from "react";
 import { FiltersContext } from "@/contexts/FiltersContext";
 import { useNavigate } from "react-router-dom";
-import 'leaflet-routing-machine';
-import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
-import * as turf from '@turf/turf';
-import EnumCnaes from "../../enum/EnumCnaes"
+import "leaflet-routing-machine";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+import * as turf from "@turf/turf";
+import EnumCnaes from "../../enum/EnumCnaes";
 
 const Map = () => {
-  const { estabelecimentos } = useContext(FiltersContext);
+  const { estabelecimentos, route } = useContext(FiltersContext);
   const navigate = useNavigate();
   const handleViewMore = id => {
     navigate(`/estabelecimento/${id}`);
@@ -29,35 +38,35 @@ const Map = () => {
   };
 
   const redIcon = new Icon({
-    iconUrl: '/pins/red.png',
+    iconUrl: "/pins/red.png",
     iconSize: [40, 41],
     iconAnchor: [12, 41],
     popupAnchor: [8, -40],
-    shadowSize: [41, 41]
+    shadowSize: [41, 41],
   });
 
   const yellowIcon = new Icon({
-    iconUrl: '/pins/yellow.png',
+    iconUrl: "/pins/yellow.png",
     iconSize: [40, 41],
     iconAnchor: [12, 41],
     popupAnchor: [8, -40],
-    shadowSize: [41, 41]
+    shadowSize: [41, 41],
   });
 
   const greenIcon = new Icon({
-    iconUrl: '/pins/greenFlag.png',
+    iconUrl: "/pins/greenFlag.png",
     iconSize: [40, 41],
     iconAnchor: [12, 41],
     popupAnchor: [8, -40],
-    shadowSize: [41, 41]
+    shadowSize: [41, 41],
   });
 
   const flagIcon = new Icon({
-    iconUrl: '/pins/flag.png',
+    iconUrl: "/pins/flag.png",
     iconSize: [40, 41],
     iconAnchor: [12, 41],
     popupAnchor: [8, -40],
-    shadowSize: [41, 41]
+    shadowSize: [41, 41],
   });
 
   const cnaesIcons = (cnae, id) => {
@@ -67,7 +76,7 @@ const Map = () => {
         iconSize: [35, 41],
         iconAnchor: [12, 41],
         popupAnchor: [5, -40],
-        shadowSize: [41, 41]
+        shadowSize: [41, 41],
       });
     }
 
@@ -76,16 +85,23 @@ const Map = () => {
       iconSize: [35, 41],
       iconAnchor: [12, 41],
       popupAnchor: [5, -40],
-      shadowSize: [41, 41]
+      shadowSize: [41, 41],
     });
-  }
+  };
 
   const getIconType = (cnae, id) => {
-    const teste = id % 2
-    if ([EnumCnaes.MANUTENCAO_MECANICA, EnumCnaes.PECAS_AUTOMOTORES, EnumCnaes.PNEUMATICOS, EnumCnaes.OPTICA].includes(cnae)){
+    const teste = id % 2;
+    if (
+      [
+        EnumCnaes.MANUTENCAO_MECANICA,
+        EnumCnaes.PECAS_AUTOMOTORES,
+        EnumCnaes.PNEUMATICOS,
+        EnumCnaes.OPTICA,
+      ].includes(cnae)
+    ) {
       return cnaesIcons(cnae, teste);
     }
-        return getIcon(teste); 
+    return getIcon(teste);
   };
 
   const getIcon = id => {
@@ -93,7 +109,7 @@ const Map = () => {
       case 0:
         return redIcon;
       default:
-        return yellowIcon; 
+        return yellowIcon;
     }
   };
 
@@ -108,41 +124,43 @@ const Map = () => {
         waypoints: [latLng(start[0], start[1]), latLng(end[0], end[1])],
         routeWhileDragging: true,
         lineOptions: {
-          styles: [{ color: '#3b7abd', weight: 4 }]
+          styles: [{ color: "#3b7abd", weight: 4 }],
         },
         createMarker: (i, waypoint, n) => {
           const markers = [greenIcon, flagIcon];
           return marker(waypoint.latLng, {
-            icon: markers[i % markers.length]
+            icon: markers[i % markers.length],
           });
         },
       }).addTo(map);
 
-      routingControl.on('routesfound', e => {
+      routingControl.on("routesfound", e => {
         const route = e.routes[0];
         const line = polyline(route.coordinates);
 
-        const lineString = turf.lineString(route.coordinates.map(coord => [coord.lng, coord.lat]));
+        const lineString = turf.lineString(
+          route.coordinates.map(coord => [coord.lng, coord.lat])
+        );
 
-        const buffered = turf.buffer(lineString, buffer, { units: 'meters' });
+        const buffered = turf.buffer(lineString, buffer, { units: "meters" });
 
         if (bufferLayerRef.current) {
           map.removeLayer(bufferLayerRef.current);
-          bufferLayerRef.current = null; 
+          bufferLayerRef.current = null;
         }
 
         bufferLayerRef.current = geoJSON(buffered, {
           style: {
-            color: '#579cd5',
+            color: "#579cd5",
             weight: 2,
             opacity: 0.2,
-            fillOpacity: 0.05
-          }
+            fillOpacity: 0.05,
+          },
         }).addTo(map);
       });
 
       return () => {
-        routingControl.off()
+        routingControl.off();
         map.removeControl(routingControl);
         if (bufferLayerRef.current) {
           map.removeLayer(bufferLayerRef.current);
@@ -170,15 +188,27 @@ const Map = () => {
           {estabelecimentos &&
             estabelecimentos
               .filter(({ latitude, longitude }) => latitude && longitude)
-              .map(({ id, latitude, longitude, razao_social, cnpj_basico,endereco, cnae_id }) => (
-                <Marker key={id} position={[latitude, longitude]} icon={getIconType(cnae_id, id)}>
-                  <Popup>
-                    <Paper sx={{ p: 4 }}>
-                      <Typography variant="h6" gutterBottom component="div">
-                      {razao_social}
-
-                      </Typography>
-                      <Divider sx={{ mb: 2 }} />
+              .map(
+                ({
+                  id,
+                  latitude,
+                  longitude,
+                  razao_social,
+                  cnpj_basico,
+                  endereco,
+                  cnae_id,
+                }) => (
+                  <Marker
+                    key={id}
+                    position={[latitude, longitude]}
+                    icon={getIconType(cnae_id, id)}
+                  >
+                    <Popup>
+                      <Paper sx={{ p: 4 }}>
+                        <Typography variant="h6" gutterBottom component="div">
+                          {razao_social}
+                        </Typography>
+                        <Divider sx={{ mb: 2 }} />
                         <Box key={id} sx={{ mb: 2 }}>
                           <Typography
                             variant="caption"
@@ -189,7 +219,6 @@ const Map = () => {
                             fontSize={"18px"}
                           >
                             CNPJ: {cnpj_basico}
-                            
                           </Typography>
                           <Typography
                             variant="body1"
@@ -205,18 +234,25 @@ const Map = () => {
                           >
                             Capital Social:
                           </Typography>
-                          <Button  variant="contained" color="primary" onClick={() => handleViewMore(id)}>Ver detalhes</Button>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handleViewMore(id)}
+                          >
+                            Ver detalhes
+                          </Button>
                         </Box>
-                    </Paper>
-                  </Popup>
-                </Marker>
-              ))}
+                      </Paper>
+                    </Popup>
+                  </Marker>
+                )
+              )}
         </MarkerClusterGroup>
         {estabelecimentos && estabelecimentos.length > 1 && (
           <RoutingControlWithBuffer
-          start={[estabelecimentos[0].latitude, estabelecimentos[0].longitude]}
-          end={[estabelecimentos[1].latitude, estabelecimentos[1].longitude]}
-          buffer={500}
+            start={[route.start?.latitude, route.start?.longitude]}
+            end={[route.end?.latitude, route.end?.longitude]}
+            buffer={500}
           />
         )}
       </MapContainer>

@@ -10,6 +10,11 @@ const FiltersProvider = ({ children }) => {
   const [estabelecimentos, setEstabelecimentos] = useState([]);
   const [total, setTotal] = useState(0);
 
+  const [route, setRoute] = useState({
+    start: null,
+    end: null,
+  });
+
   const [filters, setFilters] = useState({
     cnae: [],
     porte: null,
@@ -25,6 +30,10 @@ const FiltersProvider = ({ children }) => {
     logradouro: "",
     page: 0,
   });
+
+  const handleRoute = (start, end) => {
+    setRoute({ start, end });
+  };
 
   const changePage = page => {
     setFilters({ ...filters, page });
@@ -75,6 +84,8 @@ const FiltersProvider = ({ children }) => {
         estabelecimentos,
         changePage,
         total,
+        route,
+        handleRoute,
       }}
     >
       {children}
