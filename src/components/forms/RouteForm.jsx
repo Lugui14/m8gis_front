@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import EstabelecimentoAutocomplete from "../inputs/autocomplete/EstabelecimentoAutocomplete";
+import RadiusInput from "../inputs/fields/RadiusInput";
 
 const RouteForm = ({ onClose }) => {
   const { handleRoute } = useContext(FiltersContext);
@@ -15,14 +16,14 @@ const RouteForm = ({ onClose }) => {
   });
 
   const onSubmit = data => {
-    handleRoute(data.start, data.end);
+    handleRoute(data.start, data.end, data.radius);
     onClose();
   };
 
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           <Grid item xs={12}>
             <EstabelecimentoAutocomplete
               type={"start"}
@@ -31,6 +32,9 @@ const RouteForm = ({ onClose }) => {
           </Grid>
           <Grid item xs={12}>
             <EstabelecimentoAutocomplete type={"end"} control={form.control} />
+          </Grid>
+          <Grid item xs={4}>
+            <RadiusInput />
           </Grid>
           <Grid item xs={12} display={"flex"} justifyContent={"flex-end"}>
             <Button variant={"contained"} type="submit">

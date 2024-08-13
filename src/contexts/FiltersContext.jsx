@@ -13,6 +13,7 @@ const FiltersProvider = ({ children }) => {
   const [route, setRoute] = useState({
     start: null,
     end: null,
+    radius: 500,
   });
 
   const [filters, setFilters] = useState({
@@ -31,8 +32,8 @@ const FiltersProvider = ({ children }) => {
     page: 0,
   });
 
-  const handleRoute = (start, end) => {
-    setRoute({ start, end });
+  const handleRoute = (start, end, radius) => {
+    setRoute({ start, end, radius });
   };
 
   const changePage = page => {

@@ -153,8 +153,8 @@ const Map = () => {
           style: {
             color: "#579cd5",
             weight: 2,
-            opacity: 0.2,
-            fillOpacity: 0.05,
+            opacity: 0.5,
+            fillOpacity: 0.15,
           },
         }).addTo(map);
       });
@@ -252,7 +252,7 @@ const Map = () => {
           <RoutingControlWithBuffer
             start={[route.start?.latitude, route.start?.longitude]}
             end={[route.end?.latitude, route.end?.longitude]}
-            buffer={500}
+            buffer={route.radius}
           />
         )}
       </MapContainer>
