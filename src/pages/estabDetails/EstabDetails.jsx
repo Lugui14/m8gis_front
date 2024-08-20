@@ -59,6 +59,7 @@ const EstabDetails = () => {
   // Placeholder data, replace with data from your database
   const { id } = useParams(); // Acessando o ID da URL
   const { data, isLoading, error } = useFetchEstabs(id);
+  console.log(data);
   //passando pro cartao cnpj
   const cnpjData = {
     cnpj: data?.cnpj_basico,
@@ -72,6 +73,7 @@ const EstabDetails = () => {
     cidade: data?.endereco ? data?.endereco?.cidade : "",
     logradouro: data?.endereco ? data?.endereco?.logradouro : "",
     numero: data?.endereco ? data?.endereco?.numero : "",
+    telefone:  data?.empresa.ddd + data?.empresa.telefone,
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -139,12 +141,12 @@ const EstabDetails = () => {
             />
             <SegmentInfoItem
               icon={<LocationOnIcon />}
-              title="Brasil"
+              title="Santa Catarina"
               value={42141}
             />
             <SegmentInfoItem
               icon={<LocationOnIcon />}
-              title="Brasil"
+              title="Nome da cidade"
               value={42141}
             />
           </Paper>
@@ -174,12 +176,12 @@ const EstabDetails = () => {
               <InfoItem
                 icon={<PhoneIcon />}
                 title="Telefones"
-                value={empresaData.telefone}
+                value={data.empresa.ddd + data.empresa.telefone}
               />
               <InfoItem
                 icon={<EmailIcon />}
                 title="E-mails"
-                value={empresaData.email}
+                value={data.empresa.email}
               />
               <InfoItem
                 icon={<CalendarTodayIcon />}

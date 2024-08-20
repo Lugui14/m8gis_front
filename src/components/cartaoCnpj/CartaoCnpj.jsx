@@ -1,5 +1,6 @@
 import { Divider, Paper, Typography, Box } from "@mui/material";
 
+// eslint-disable-next-line react/prop-types
 const CartaoCnpj = ({ data }) => {
   return (
     <Paper sx={{ p: 2 }}>

@@ -184,7 +184,6 @@ const Map = () => {
           chunkedLoading
           iconCreateFunction={createCustomClusterIcon}
         >
-          {/* {console.log(estabelecimentos)} */}
           {estabelecimentos &&
             estabelecimentos
               .filter(({ latitude, longitude }) => latitude && longitude)
@@ -197,6 +196,7 @@ const Map = () => {
                   cnpj_basico,
                   endereco,
                   cnae_id,
+                  capital_social,
                 }) => (
                   <Marker
                     key={id}
@@ -232,7 +232,7 @@ const Map = () => {
                             gutterBottom
                             fontSize={"18px"}
                           >
-                            Capital Social:
+                            Capital Social: {capital_social}
                           </Typography>
                           <Button
                             variant="contained"
